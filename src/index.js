@@ -6,12 +6,13 @@ import { changePriority } from './changePriority.js';
 import { createList } from './createlist.js';
 import { moveTodo } from './movetodo.js';
 
+let content = document.querySelector("#content");
+let div = document.createElement('div');
+let heading = document.createElement('h1');
+let button = document.createElement('button');
+
+
 pageLoad();
 
 let todoList = [];
-let todo = createTodo('shopping', 'need to shop', 'whenever', 'asap');
-addTodo(todoList, todo);
-changePriority(todo, 'green');
-let john = createList('bob');
 
-moveTodo(todo, todoList, john);

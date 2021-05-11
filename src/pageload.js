@@ -1,6 +1,6 @@
 function pageLoad() {
 
-let content = document.querySelector("#content");
+let normal = document.querySelector(".default");
 let div = document.createElement('div');
 let heading = document.createElement('h1');
 let button = document.createElement('button');
@@ -10,7 +10,7 @@ button.textContent = "ADD";
 button.classList.add('add');
 div.appendChild(heading);
 div.appendChild(button);
-content.appendChild(div);
+normal.appendChild(div);
 
 }
 
