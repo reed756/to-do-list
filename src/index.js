@@ -6,17 +6,24 @@ import { changePriority } from './changePriority.js';
 import { createList } from './createlist.js';
 import { moveTodo } from './movetodo.js';
 import { render } from './render.js';
+import { addForm } from './addform.js';
 
 pageLoad();
 
 let totalList = [];
 let todoList = [];
-let newTodo = createTodo('title', 'description', 'dueDate', 'priority');
+let anotherList = [];
+let newTodo = createTodo('title', 'description', 'dueDate', 'priority3');
+let wewTodo = createTodo('title', 'description', 'dueDate', 'priority2');
+let mewTodo = createTodo('title', 'description', 'dueDate', 'priority1');
 
 addTodo(todoList, newTodo);
+addTodo(todoList, wewTodo);
+addTodo(todoList, mewTodo);
 
-let newTotalList = totalList.concat(todoList);
+console.log(todoList);
 
-render(newTotalList);
+render(todoList);
+addForm();
 
 
