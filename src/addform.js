@@ -25,23 +25,21 @@ const addForm = () => {
     inputDueDate.setAttribute('data', 'duedate');
     inputDueDate.setAttribute('type', 'date');
 
-    let labelPriority1 = document.createElement('label');
-    let inputPriority1 = document.createElement('input');
-    labelPriority1.textContent = "Priority:";
-    inputPriority1.setAttribute('data', 'priority');
-    inputPriority1.setAttribute('type', 'radio');
+    let labelPriority = document.createElement('label');
+    let selectPriority = document.createElement('select');
+    labelPriority.textContent = "Priority:";
 
-    let labelPriority2 = document.createElement('label');
-    let inputPriority2 = document.createElement('input');
-    labelPriority2.textContent = "Priority:";
-    inputPriority2.setAttribute('data', 'priority');
-    inputPriority2.setAttribute('type', 'radio');
+    let optionOne = document.createElement('option');
+    optionOne.textContent = "Red";
+    optionOne.setAttribute('value', 'red');
 
-    let labelPriority3 = document.createElement('label');
-    let inputPriority3 = document.createElement('input');
-    labelPriority3.textContent = "Priority:";
-    inputPriority3.setAttribute('data', 'priority');
-    inputPriority3.setAttribute('type', 'radio');
+    let optionTwo = document.createElement('option');
+    optionTwo.textContent = "Orange";
+    optionTwo.setAttribute('value', 'orange');
+
+    let optionThree = document.createElement('option');
+    optionThree.textContent = "Green";
+    optionThree.setAttribute('value', 'green');
 
     let button = document.createElement('button');
     let cancel = document.createElement('button');
@@ -60,12 +58,11 @@ const addForm = () => {
     form.appendChild(labelDueDate);
     form.appendChild(inputDueDate);
     form.appendChild(br3);
-    form.appendChild(labelPriority1);
-    form.appendChild(inputPriority1);
-    form.appendChild(labelPriority2);
-    form.appendChild(inputPriority2);
-    form.appendChild(labelPriority3);
-    form.appendChild(inputPriority3);
+    form.appendChild(labelPriority);
+    selectPriority.appendChild(optionOne);
+    selectPriority.appendChild(optionTwo);
+    selectPriority.appendChild(optionThree);
+    form.appendChild(selectPriority);
     form.appendChild(br4);
     form.appendChild(button);
     form.appendChild(cancel);

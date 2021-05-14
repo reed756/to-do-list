@@ -20,7 +20,6 @@ const todoList = [];
 let add = document.querySelector('.add');
 let isClicked = false;
 
-
 add.addEventListener('click', function() {
     if (isClicked === false) {
         addForm();
