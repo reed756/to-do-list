@@ -28,6 +28,7 @@ const addForm = () => {
     let labelPriority = document.createElement('label');
     let selectPriority = document.createElement('select');
     labelPriority.textContent = "Priority:";
+    selectPriority.setAttribute('data', 'priority');
 
     let optionOne = document.createElement('option');
     optionOne.textContent = "Red";
@@ -48,6 +49,7 @@ const addForm = () => {
     cancel.textContent = "CANCEL";
     cancel.classList.add('cancel');
     cancel.setAttribute('type', 'button');
+    button.setAttribute('data', 'add');
     
     form.appendChild(labelTitle);
     form.appendChild(inputTitle);

@@ -22,15 +22,40 @@ let isClicked = false;
 
 add.addEventListener('click', function() {
     if (isClicked === false) {
+
         addForm();
         isClicked = true;
         let cancel = document.querySelector('.cancel');
         let normal = document.querySelector(".default2");
         let form = document.querySelector('form');
+        let title = document.querySelector("[data='title']");
+        let description = document.querySelector("[data='description']");
+        let duedate = document.querySelector("[data='duedate']");
+        let priority = document.querySelector("[data='priority']");
+        let add = document.querySelector("[data='add']");
+
         cancel.addEventListener('click', function() {
         normal.removeChild(form);
         isClicked = false;
         })
+
+        add.addEventListener('click', function() {
+            let finalTodo = createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
+            addTodo(todoList, finalTodo);
+            render(todoList);
+            title.value = "";
+            description.value = "";
+            duedate.value = "";
+            priority.value = "";
+        })
+
+        let deleteButton = document.querySelector("[data='delete']");
+        
+        deleteButton.addEventListener('click', function() {
+            removeTodo(todoList, deleteButton.attributes.data-number.value);
+            render(todoList);
+        })
+
     }
 });
 
