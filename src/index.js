@@ -7,6 +7,7 @@ import { createList } from './createlist.js';
 import { moveTodo } from './movetodo.js';
 import { render } from './render.js';
 import { addForm } from './addform.js';
+import { addDelete } from './adddelete.js';
 
 pageLoad();
 
@@ -48,16 +49,18 @@ add.addEventListener('click', function() {
             duedate.value = "";
             priority.value = "";
         })
-
-        let deleteButton = document.querySelector("[data='delete']");
-        
-        deleteButton.addEventListener('click', function() {
-            removeTodo(todoList, deleteButton.attributes.data-number.value);
-            render(todoList);
-        })
-
     }
 });
+let normal = document.querySelector(".default2");
+    if (normal) {
+        let deleteButton = document.querySelectorAll("[data='delete']");
+            deleteButton.forEach((element) => {
+                element.addEventListener('click', function() {
+                    removeTodo(todoList, element.attributes.datanumber.value);
+                    render(todoList);
+                })
+            })
+        }
 
 // add.removeEventListener('click', addForm);
 
@@ -67,7 +70,7 @@ add.addEventListener('click', function() {
 
 // console.log(todoList);
 
-render(todoList);
+// render(todoList);
 
 
 // add.addEventListener('click', function() {
