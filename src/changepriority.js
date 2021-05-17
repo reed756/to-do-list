@@ -1,5 +1,5 @@
-const changePriority = (todo, change) => {
-    todo.priority = change;
+const changePriority = (element, newElement) => {
+    return element = newElement;
 }
 
 export { changePriority }

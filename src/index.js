@@ -5,17 +5,9 @@ import { removeTodo } from './removetodo.js';
 import { changePriority } from './changePriority.js';
 import { createList } from './createlist.js';
 import { moveTodo } from './movetodo.js';
-import { render } from './render.js';
 import { addForm } from './addform.js';
-import { addDelete } from './adddelete.js';
 
 pageLoad();
-
-// let totalList = [];
-// let anotherList = [];
-// let newTodo = createTodo('title', 'description', 'dueDate', 'priority3');
-// let wewTodo = createTodo('title', 'description', 'dueDate', 'priority2');
-// let mewTodo = createTodo('title', 'description', 'dueDate', 'priority1');
 
 const todoList = [];
 let add = document.querySelector('.add');
@@ -41,45 +33,48 @@ add.addEventListener('click', function() {
         })
 
         add.addEventListener('click', function() {
-            let finalTodo = createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
+            let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
             addTodo(todoList, finalTodo);
-            render(todoList);
-            title.value = "";
-            description.value = "";
-            duedate.value = "";
-            priority.value = "";
+            let defaultList = document.querySelector(".defaultList");
+                let li = document.createElement("li");
+                li.classList.add('todo');
+                let deleteButton = document.createElement('button');
+                let text = document.createTextNode(`${todoList[todoList.length - 1].title} ${todoList[todoList.length - 1].description} ${todoList[todoList.length - 1].dueDate} ${todoList[todoList.length - 1].priority}`);
+                let priorityButton = document.createElement('button');
+                priorityButton.textContent = "CHANGE PRIORITY";
+                priorityButton.setAttribute('data', `${todoList[todoList.length - 1].priority}`);
+                priorityButton.setAttribute('data', `${todoList.length - 1}`);
+          
+                deleteButton.textContent = "DELETE";
+                deleteButton.setAttribute('type', 'button');
+                deleteButton.setAttribute('data', 'delete');
+                deleteButton.setAttribute('datanumber', `${todoList.length - 1}`);
+                deleteButton.addEventListener('click', () => {
+                    removeTodo(todoList, deleteButton.attributes.datanumber.value);
+                    defaultList.removeChild(li);
+                })
+                priorityButton.addEventListener('click', () => {
+                    // changePriority(todoList[deleteButton.attributes.datanumber.value].priority, todoList[deleteButton.attributes.datanumber.value].toggle);
+                    todoList[todoList.length - 1].toggle;
+                    console.log(todoList[deleteButton.attributes.datanumber.value].priority);
+                })
+                li.appendChild(text);
+                li.appendChild(priorityButton);
+                li.appendChild(deleteButton);
+                defaultList.appendChild(li);
+
+                title.value = "";
+                description.value = "";
+                duedate.value = "";
+                priority.value = "";
         })
     }
 });
-let normal = document.querySelector(".default2");
-    if (normal) {
-        let deleteButton = document.querySelectorAll("[data='delete']");
-            deleteButton.forEach((element) => {
-                element.addEventListener('click', function() {
-                    removeTodo(todoList, element.attributes.datanumber.value);
-                    render(todoList);
-                })
-            })
-        }
 
-// add.removeEventListener('click', addForm);
-
-// addTodo(todoList, newTodo);
-// addTodo(todoList, wewTodo);
-// addTodo(todoList, mewTodo);
-
-// console.log(todoList);
-
-// render(todoList);
-
-
-// add.addEventListener('click', function() {
-//     addForm();
-//     add.removeEventListener('click', addForm);
-//     let cancel = document.querySelector('.cancel');
-//     let normal = document.querySelector(".default2");
-//     let form = document.querySelector('form');
-//     cancel.addEventListener('click', function() {
-//     normal.removeChild(form);
-// })
-// });
+// myLibrary[card.attributes.data.value].toggle();
+//             card.textContent = `${myLibrary[card.attributes.data.value].title} ${myLibrary[card.attributes.data.value].author} ${myLibrary[card.attributes.data.value].number} ${myLibrary[card.attributes.data.value].read}`;
+//             deleteButton.innerText = "DELETE";
+//             readButton.innerText = "READ";
+//             card.appendChild(deleteButton);
+//             card.appendChild(readButton);
+//             setStorage();
