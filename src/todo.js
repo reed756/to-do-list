@@ -5,13 +5,13 @@ class createTodo {
         this.dueDate = dueDate;
         this.priority = priority;
     }
-    toggle() {
-        if (this.priority === 'red') {
-            return this.priority = 'orange';
-        } else if (this.priority === 'orange') {
-            return this.priority = 'green';
-        } else {return this.priority = 'red';}
-    }
+    // toggle() {
+    //     if (this.priority === 'red') {
+    //         return this.priority = 'orange';
+    //     } else if (this.priority === 'orange') {
+    //         return this.priority = 'green';
+    //     } else {return this.priority = 'red';}
+    // }
 } 
 
 export { createTodo }

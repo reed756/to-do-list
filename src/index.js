@@ -42,7 +42,6 @@ add.addEventListener('click', function() {
                 let text = document.createTextNode(`${todoList[todoList.length - 1].title} ${todoList[todoList.length - 1].description} ${todoList[todoList.length - 1].dueDate} ${todoList[todoList.length - 1].priority}`);
                 let priorityButton = document.createElement('button');
                 priorityButton.textContent = "CHANGE PRIORITY";
-                priorityButton.setAttribute('data', `${todoList[todoList.length - 1].priority}`);
                 priorityButton.setAttribute('data', `${todoList.length - 1}`);
           
                 deleteButton.textContent = "DELETE";
@@ -52,11 +51,20 @@ add.addEventListener('click', function() {
                 deleteButton.addEventListener('click', () => {
                     removeTodo(todoList, deleteButton.attributes.datanumber.value);
                     defaultList.removeChild(li);
+                    let deletes = document.querySelectorAll('button[data]');
+                    for (let i = 0; i < todoList.length; i++) {
+                        deletes[i].setAttribute('data', `${i}`);
+                    }
                 })
                 priorityButton.addEventListener('click', () => {
-                    // changePriority(todoList[deleteButton.attributes.datanumber.value].priority, todoList[deleteButton.attributes.datanumber.value].toggle);
-                    todoList[todoList.length - 1].toggle;
-                    console.log(todoList[deleteButton.attributes.datanumber.value].priority);
+                    li.removeChild(text);
+                    li.removeChild(priorityButton);
+                    li.removeChild(deleteButton);
+                    todoList[priorityButton.attributes.data.value].priority = changePriority(todoList[priorityButton.attributes.data.value].priority);
+                    text = document.createTextNode(`${todoList[priorityButton.attributes.data.value].title} ${todoList[priorityButton.attributes.data.value].description} ${todoList[priorityButton.attributes.data.value].dueDate} ${todoList[priorityButton.attributes.data.value].priority}`);
+                    li.appendChild(text);
+                    li.appendChild(priorityButton);
+                    li.appendChild(deleteButton);
                 })
                 li.appendChild(text);
                 li.appendChild(priorityButton);
