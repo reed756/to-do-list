@@ -42,26 +42,25 @@ add.addEventListener('click', function() {
                 let text = document.createTextNode(`${todoList[todoList.length - 1].title} ${todoList[todoList.length - 1].description} ${todoList[todoList.length - 1].dueDate} ${todoList[todoList.length - 1].priority}`);
                 let priorityButton = document.createElement('button');
                 priorityButton.textContent = "CHANGE PRIORITY";
-                priorityButton.setAttribute('data', `${todoList.length - 1}`);
+                priorityButton.setAttribute('datanum', `${todoList.length - 1}`);
           
                 deleteButton.textContent = "DELETE";
                 deleteButton.setAttribute('type', 'button');
-                deleteButton.setAttribute('data', 'delete');
                 deleteButton.setAttribute('datanumber', `${todoList.length - 1}`);
                 deleteButton.addEventListener('click', () => {
                     removeTodo(todoList, deleteButton.attributes.datanumber.value);
                     defaultList.removeChild(li);
-                    let deletes = document.querySelectorAll('button[data]');
+                    let deletes = document.querySelectorAll('button[datanum]');
                     for (let i = 0; i < todoList.length; i++) {
-                        deletes[i].setAttribute('data', `${i}`);
+                        deletes[i].setAttribute('datanum', `${i}`);
                     }
                 })
                 priorityButton.addEventListener('click', () => {
                     li.removeChild(text);
                     li.removeChild(priorityButton);
                     li.removeChild(deleteButton);
-                    todoList[priorityButton.attributes.data.value].priority = changePriority(todoList[priorityButton.attributes.data.value].priority);
-                    text = document.createTextNode(`${todoList[priorityButton.attributes.data.value].title} ${todoList[priorityButton.attributes.data.value].description} ${todoList[priorityButton.attributes.data.value].dueDate} ${todoList[priorityButton.attributes.data.value].priority}`);
+                    todoList[priorityButton.attributes.datanum.value].priority = changePriority(todoList[priorityButton.attributes.datanum.value].priority);
+                    text = document.createTextNode(`${todoList[priorityButton.attributes.datanum.value].title} ${todoList[priorityButton.attributes.datanum.value].description} ${todoList[priorityButton.attributes.datanum.value].dueDate} ${todoList[priorityButton.attributes.datanum.value].priority}`);
                     li.appendChild(text);
                     li.appendChild(priorityButton);
                     li.appendChild(deleteButton);
@@ -78,11 +77,3 @@ add.addEventListener('click', function() {
         })
     }
 });
-
-// myLibrary[card.attributes.data.value].toggle();
-//             card.textContent = `${myLibrary[card.attributes.data.value].title} ${myLibrary[card.attributes.data.value].author} ${myLibrary[card.attributes.data.value].number} ${myLibrary[card.attributes.data.value].read}`;
-//             deleteButton.innerText = "DELETE";
-//             readButton.innerText = "READ";
-//             card.appendChild(deleteButton);
-//             card.appendChild(readButton);
-//             setStorage();
