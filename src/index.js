@@ -6,12 +6,18 @@ import { changePriority } from './changePriority.js';
 import { createList } from './createlist.js';
 import { moveTodo } from './movetodo.js';
 import { addForm } from './addform.js';
+import { projectForm } from './projectform.js';
 
 pageLoad();
 
 const todoList = [];
 let add = document.querySelector('.add');
+let addProject = document.querySelector('.new-project');
 let isClicked = false;
+
+addProject.addEventListener('click', function() {
+    projectForm();
+})
 
 add.addEventListener('click', function() {
     if (isClicked === false) {

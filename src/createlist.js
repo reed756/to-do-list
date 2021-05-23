@@ -1,6 +1,5 @@
-const createList = (totalList, name) => {
+const createList = (name) => {
     name = [];
-    totalList.push(name);
 }
 
 export { createList }
