@@ -16,7 +16,27 @@ let addProject = document.querySelector('.new-project');
 let isClicked = false;
 
 addProject.addEventListener('click', function() {
-    projectForm();
+    if (isClicked === false) {
+        projectForm();
+        isClicked = true;
+        let cancel = document.querySelector('.cancel');
+        let normal = document.querySelector(".default2");
+        let form = document.querySelector('.form');
+        let adder = document.querySelector('.addproject');
+        let input = document.querySelector("[data='title']");
+        adder.addEventListener('click', function() {
+            let list = document.createElement('ul');
+            list.textContent = `${input.value}`;
+            normal.appendChild(list);
+            let blob = createList(input.value);
+            console.log(blob);
+            console.log('hello');
+        })
+        cancel.addEventListener('click', function() {
+            normal.removeChild(form);
+            isClicked = false;
+        })
+    }
 })
 
 add.addEventListener('click', function() {
