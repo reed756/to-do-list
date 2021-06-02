@@ -30,16 +30,26 @@ addProject.addEventListener('click', function() {
         adder.addEventListener('click', function() {
             let list = document.createElement('ul');
             let button = document.createElement('button');
+            let deleteProj = document.createElement('button');
             button.setAttribute('type', 'button');
             button.textContent = "ADD TODO";
+            deleteProj.setAttribute('type', 'button');
+            deleteProj.textContent = "DELETE PROJECT";
             list.textContent = `${input.value}`;
             list.appendChild(button);
+            list.appendChild(deleteProj);
             listdiv.appendChild(list);
             let newList = createList(input.value);
             input.value = "";
             listOfProjects.push(newList);
             button.setAttribute('data', `${listOfProjects.length - 1}`);
+            deleteProj.setAttribute('data', `${listOfProjects.length - 1}`);
             list.setAttribute('data', `${listOfProjects.length - 1}`);
+            deleteProj.addEventListener('click', function() {
+                listOfProjects.splice(list.attributes.data.value, 1);
+                listdiv.removeChild(list);
+                console.log(listOfProjects);
+            })
             button.addEventListener('click', function() {
                 if (isClicked === false) {
                     addForm();
@@ -68,20 +78,20 @@ addProject.addEventListener('click', function() {
                             let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].description} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].priority}`);
                             let priorityButton = document.createElement('button');
                             priorityButton.textContent = "CHANGE PRIORITY";
-                            priorityButton.setAttribute('datanum', `${todoList.length - 1}`);
+                            priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].length - 1}`);
                       
                             deleteButton.textContent = "DELETE";
                             deleteButton.setAttribute('type', 'button');
-                            deleteButton.setAttribute('datanumber', `${todoList.length - 1}`);
+                            deleteButton.setAttribute('datanumber', `${listOfProjects[button.attributes.data.value].length - 1}`);
                             deleteButton.addEventListener('click', () => {
-                                removeTodo(todoList, deleteButton.attributes.datanumber.value);
-                                defaultList.removeChild(li);
+                                removeTodo(listOfProjects[button.attributes.data.value], deleteButton.attributes.datanumber.value);
+                                list.removeChild(li);
                                 let deletes = document.querySelectorAll('button[datanumber]');
-                                for (let i = 0; i < todoList.length; i++) {
+                                for (let i = 0; i < listOfProjects[button.attributes.data.value].length; i++) {
                                     deletes[i].setAttribute('datanumber', `${i}`);
                                 }
                                 let priorities = document.querySelectorAll('button[datanum]');
-                                for (let i = 0; i < todoList.length; i++) {
+                                for (let i = 0; i < listOfProjects[button.attributes.data.value].length; i++) {
                                     priorities[i].setAttribute('datanum', `${i}`);
                                 }
                             })
@@ -89,8 +99,8 @@ addProject.addEventListener('click', function() {
                                 li.removeChild(text);
                                 li.removeChild(priorityButton);
                                 li.removeChild(deleteButton);
-                                todoList[priorityButton.attributes.datanum.value].priority = changePriority(todoList[priorityButton.attributes.datanum.value].priority);
-                                text = document.createTextNode(`${todoList[priorityButton.attributes.datanum.value].title} ${todoList[priorityButton.attributes.datanum.value].description} ${todoList[priorityButton.attributes.datanum.value].dueDate} ${todoList[priorityButton.attributes.datanum.value].priority}`);
+                                listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority);
+                                text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].description} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority}`);
                                 li.appendChild(text);
                                 li.appendChild(priorityButton);
                                 li.appendChild(deleteButton);
@@ -98,7 +108,7 @@ addProject.addEventListener('click', function() {
                             li.appendChild(text);
                             li.appendChild(priorityButton);
                             li.appendChild(deleteButton);
-                            defaultList.appendChild(li);
+                            list.appendChild(li);
             
                             title.value = "test";
                             description.value = "test";
