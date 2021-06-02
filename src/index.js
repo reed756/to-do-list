@@ -40,7 +40,7 @@ addProject.addEventListener('click', function() {
             list.appendChild(deleteProj);
             listdiv.appendChild(list);
             let newList = createList(input.value);
-            input.value = "";
+            input.value = "test";
             listOfProjects.push(newList);
             button.setAttribute('data', `${listOfProjects.length - 1}`);
             deleteProj.setAttribute('data', `${listOfProjects.length - 1}`);
@@ -48,7 +48,10 @@ addProject.addEventListener('click', function() {
             deleteProj.addEventListener('click', function() {
                 listOfProjects.splice(list.attributes.data.value, 1);
                 listdiv.removeChild(list);
-                console.log(listOfProjects);
+                let deleters = document.querySelectorAll('ul[data]');
+                for (let i = 0; i < listOfProjects.length - 1; i++) {
+                    deleters[i].setAttribute('data', `${i}`);
+                }
             })
             button.addEventListener('click', function() {
                 if (isClicked === false) {
@@ -75,7 +78,7 @@ addProject.addEventListener('click', function() {
                             let li = document.createElement("li");
                             li.classList.add('todo');
                             let deleteButton = document.createElement('button');
-                            let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].description} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].priority}`);
+                            let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate}`);
                             let priorityButton = document.createElement('button');
                             priorityButton.textContent = "CHANGE PRIORITY";
                             priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].length - 1}`);
@@ -149,8 +152,9 @@ add.addEventListener('click', function() {
             let defaultList = document.querySelector(".defaultList");
                 let li = document.createElement("li");
                 li.classList.add('todo');
+                li.style.backgroundColor = `${listOfProjects[1][listOfProjects[1].length - 1].priority}`;
                 let deleteButton = document.createElement('button');
-                let text = document.createTextNode(`${listOfProjects[1][listOfProjects[1].length - 1].title} ${listOfProjects[1][listOfProjects[1].length - 1].description} ${listOfProjects[1][listOfProjects[1].length - 1].dueDate} ${listOfProjects[1][listOfProjects[1].length - 1].priority}`);
+                let text = document.createTextNode(`${listOfProjects[1][listOfProjects[1].length - 1].title} ${listOfProjects[1][listOfProjects[1].length - 1].dueDate}`);
                 let priorityButton = document.createElement('button');
                 priorityButton.textContent = "CHANGE PRIORITY";
                 priorityButton.setAttribute('datanum', `${listOfProjects[1].length - 1}`);
@@ -174,11 +178,13 @@ add.addEventListener('click', function() {
                     li.removeChild(text);
                     li.removeChild(priorityButton);
                     li.removeChild(deleteButton);
-                    listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
-                    text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].description} ${todoList[priorityButton.attributes.datanum.value].dueDate} ${todoList[priorityButton.attributes.datanum.value].priority}`);
+                    // listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
+                    text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${todoList[priorityButton.attributes.datanum.value].dueDate}`);
                     li.appendChild(text);
                     li.appendChild(priorityButton);
                     li.appendChild(deleteButton);
+                    li.style.backgroundColor = `${changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority)}`;
+                    console.log(changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority));
                 })
                 li.appendChild(text);
                 li.appendChild(priorityButton);

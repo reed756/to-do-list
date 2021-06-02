@@ -11,6 +11,7 @@ div.classList.add('default2');
 listDiv.classList.add('listdiv');
 List.classList.add('defaultList');
 List.innerText = "DEFAULT";
+List.setAttribute('data', '0');
 heading.textContent = "Todo List";
 button.textContent = "ADD TODO";
 button.setAttribute('data', 1);
