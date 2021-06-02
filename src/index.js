@@ -77,6 +77,7 @@ addProject.addEventListener('click', function() {
                         let defaultList = document.querySelector(".defaultList");
                             let li = document.createElement("li");
                             li.classList.add('todo');
+                            li.style.backgroundColor = `${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].priority}`;
                             let deleteButton = document.createElement('button');
                             let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate}`);
                             let priorityButton = document.createElement('button');
@@ -102,11 +103,12 @@ addProject.addEventListener('click', function() {
                                 li.removeChild(text);
                                 li.removeChild(priorityButton);
                                 li.removeChild(deleteButton);
-                                listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority);
-                                text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].description} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority}`);
+                                text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate}`);
                                 li.appendChild(text);
                                 li.appendChild(priorityButton);
                                 li.appendChild(deleteButton);
+                                listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority);
+                                li.style.backgroundColor = `${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority}`;
                             })
                             li.appendChild(text);
                             li.appendChild(priorityButton);
@@ -178,13 +180,12 @@ add.addEventListener('click', function() {
                     li.removeChild(text);
                     li.removeChild(priorityButton);
                     li.removeChild(deleteButton);
-                    // listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
-                    text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${todoList[priorityButton.attributes.datanum.value].dueDate}`);
+                    text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
                     li.appendChild(text);
                     li.appendChild(priorityButton);
                     li.appendChild(deleteButton);
-                    li.style.backgroundColor = `${changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority)}`;
-                    console.log(changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority));
+                    listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
+                    li.style.backgroundColor = `${listOfProjects[1][priorityButton.attributes.datanum.value].priority}`;
                 })
                 li.appendChild(text);
                 li.appendChild(priorityButton);
