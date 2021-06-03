@@ -81,6 +81,9 @@ addProject.addEventListener('click', function() {
                             let deleteButton = document.createElement('button');
                             let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate}`);
                             let priorityButton = document.createElement('button');
+                            let viewButton = document.createElement('button');
+                            viewButton.textContent = "VIEW";
+                            viewButton.setAttribute('type', 'button');
                             priorityButton.textContent = "CHANGE PRIORITY";
                             priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].length - 1}`);
                       
@@ -103,16 +106,44 @@ addProject.addEventListener('click', function() {
                                 li.removeChild(text);
                                 li.removeChild(priorityButton);
                                 li.removeChild(deleteButton);
+                                li.removeChild(viewButton);
                                 text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate}`);
                                 li.appendChild(text);
                                 li.appendChild(priorityButton);
                                 li.appendChild(deleteButton);
+                                li.appendChild(viewButton);
                                 listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority);
                                 li.style.backgroundColor = `${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority}`;
                             })
+                            viewButton.addEventListener('click', () => {
+                                if (isClicked) {
+                                    li.removeChild(text);
+                                    li.removeChild(priorityButton);
+                                    li.removeChild(deleteButton);
+                                    li.removeChild(viewButton);
+                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].description}`);
+                                    li.appendChild(text);
+                                    li.appendChild(priorityButton);
+                                    li.appendChild(deleteButton);
+                                    li.appendChild(viewButton);
+                                    return isClicked = false;
+                                } else if (!isClicked) {
+                                    li.removeChild(text);
+                                    li.removeChild(priorityButton);
+                                    li.removeChild(deleteButton);
+                                    li.removeChild(viewButton);
+                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate}`);
+                                    li.appendChild(text);
+                                    li.appendChild(priorityButton);
+                                    li.appendChild(deleteButton);
+                                    li.appendChild(viewButton);
+                                    return isClicked = true;
+                                }
+                            });
                             li.appendChild(text);
                             li.appendChild(priorityButton);
                             li.appendChild(deleteButton);
+                            li.appendChild(viewButton);
                             list.appendChild(li);
             
                             title.value = "test";
@@ -158,6 +189,9 @@ add.addEventListener('click', function() {
                 let deleteButton = document.createElement('button');
                 let text = document.createTextNode(`${listOfProjects[1][listOfProjects[1].length - 1].title} ${listOfProjects[1][listOfProjects[1].length - 1].dueDate}`);
                 let priorityButton = document.createElement('button');
+                let viewButton = document.createElement('button');
+                viewButton.textContent = "VIEW";
+                viewButton.setAttribute('type', 'button');
                 priorityButton.textContent = "CHANGE PRIORITY";
                 priorityButton.setAttribute('datanum', `${listOfProjects[1].length - 1}`);
           
@@ -180,16 +214,44 @@ add.addEventListener('click', function() {
                     li.removeChild(text);
                     li.removeChild(priorityButton);
                     li.removeChild(deleteButton);
+                    li.removeChild(viewButton);
                     text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
                     li.appendChild(text);
                     li.appendChild(priorityButton);
                     li.appendChild(deleteButton);
+                    li.appendChild(viewButton);
                     listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
                     li.style.backgroundColor = `${listOfProjects[1][priorityButton.attributes.datanum.value].priority}`;
-                })
+                });
+                viewButton.addEventListener('click', () => {
+                    if (isClicked) {
+                        li.removeChild(text);
+                        li.removeChild(priorityButton);
+                        li.removeChild(deleteButton);
+                        li.removeChild(viewButton);
+                        text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[1][priorityButton.attributes.datanum.value].description}`);
+                        li.appendChild(text);
+                        li.appendChild(priorityButton);
+                        li.appendChild(deleteButton);
+                        li.appendChild(viewButton);
+                        return isClicked = false;
+                    } else if (!isClicked) {
+                        li.removeChild(text);
+                        li.removeChild(priorityButton);
+                        li.removeChild(deleteButton);
+                        li.removeChild(viewButton);
+                        text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
+                        li.appendChild(text);
+                        li.appendChild(priorityButton);
+                        li.appendChild(deleteButton);
+                        li.appendChild(viewButton);
+                        return isClicked = true;
+                    }
+                });
                 li.appendChild(text);
                 li.appendChild(priorityButton);
                 li.appendChild(deleteButton);
+                li.appendChild(viewButton);
                 defaultList.appendChild(li);
 
                 title.value = "test";
