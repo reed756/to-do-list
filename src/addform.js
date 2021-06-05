@@ -46,10 +46,13 @@ const addForm = () => {
     let cancel = document.createElement('button');
     button.textContent = "ADD TODO";
     button.setAttribute('type', 'button');
+    button.classList.add('add-button');
     cancel.textContent = "CANCEL";
     cancel.classList.add('cancel');
     cancel.setAttribute('type', 'button');
     button.setAttribute('data', 'add');
+
+    form.classList.add('add-form');
     
     form.appendChild(labelTitle);
     form.appendChild(inputTitle);

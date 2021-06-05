@@ -1,10 +1,136 @@
+/* HEAD */
+
+* {
+    font-family: 'Staatliches', cursive;
+    background-color: lightblue;
+    box-sizing: border-box;
+}
+
+.head-div, .form-div {
+    display: flex;
+    justify-content: center;
+}
+
+.head-div button {
+    background-color: lightgreen;
+}
+
+.addproject {
+    background-color: lightgreen;
+    margin: 5px;
+}
+
+.cancel {
+    background-color: lightcoral;
+    margin: 5px;
+}
+
+.default2 {
+    top: 0;
+    height: 100px;
+}
+
+.default2 h1 {
+    margin: 5px;
+}
+
+.default2 button {
+    margin: 5px;
+    font-size: 20px;
+}
+
+.form-div {
+    font-size: 20px;
+}
+
+.form-div input {
+    margin: 5px;
+}
+
+input {
+    width: 200px;
+    height: 65%;
+    font-size: 20px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.form-div label {
+    margin: 5px;
+}
+
+/* PROJECTS */
+
 li {
     list-style-type: none;
-    font-size: medium;
+    font-size: 20px;
     font-weight: 500;
+    padding: 4px;
+    display: flex;
+    align-items: center;
 }
 
 ul {
-    font-size: larger;
-    font-weight: bolder;
+    font-size: 20px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+ul button {
+    margin: 5px;
+}
+
+.add {
+    background-color: lightgreen;
+    font-size: 25px;
+    width: 30px;
+}
+
+.add-button {
+    background-color: lightgreen;
+}
+
+.add-form {
+    width: 400px;
+    margin-left: 40px;
+}
+
+.add-form label {
+    display: inline-block;
+    width: 20%;
+    margin: 5px;
+}
+
+/* TODOS */
+
+.delete-button {
+    background-color: red;
+    margin: 5px;
+}
+
+.priority-button {
+    width: 25px;
+    height: 25px;
+    background-image: url("https://spng.pngfind.com/pngs/s/64-644652_traffic-light-red-yellow-green-stop-signal-safety.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.view-button {
+    width: 25px;
+    height: 25px;
+    background-image: url("https://www.pngkey.com/png/full/299-2999935_free-download-at-icons8-eye-icon.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: sandybrown;
+}
+
+.red {
+    background-color: red;
+    font-size: 25px;
+    width: 30px;
 }

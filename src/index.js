@@ -6,7 +6,6 @@ import { changePriority } from './changePriority.js';
 import { createList } from './createlist.js';
 import { addForm } from './addform.js';
 import { projectForm } from './projectform.js';
-import { addList } from './addlist.js';
 
 pageLoad();
 
@@ -24,7 +23,7 @@ addProject.addEventListener('click', function() {
         let cancel = document.querySelector('.cancel');
         let normal = document.querySelector(".default2");
         let listdiv = document.querySelector(".listdiv");
-        let form = document.querySelector('.form');
+        let div = document.querySelector('.form-div');
         let adder = document.querySelector('.addproject');
         let input = document.querySelector("[data='title']");
         adder.addEventListener('click', function() {
@@ -32,9 +31,11 @@ addProject.addEventListener('click', function() {
             let button = document.createElement('button');
             let deleteProj = document.createElement('button');
             button.setAttribute('type', 'button');
-            button.textContent = "ADD TODO";
+            button.textContent = "+";
+            button.classList.add('add');
             deleteProj.setAttribute('type', 'button');
-            deleteProj.textContent = "DELETE PROJECT";
+            deleteProj.textContent = "X";
+            deleteProj.classList.add('red');
             list.textContent = `${input.value}`;
             list.appendChild(button);
             list.appendChild(deleteProj);
@@ -74,7 +75,6 @@ addProject.addEventListener('click', function() {
                     add.addEventListener('click', function() {
                         let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
                         addTodo(listOfProjects[button.attributes.data.value], finalTodo);
-                        let defaultList = document.querySelector(".defaultList");
                             let li = document.createElement("li");
                             li.classList.add('todo');
                             li.style.backgroundColor = `${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].priority}`;
@@ -82,12 +82,12 @@ addProject.addEventListener('click', function() {
                             let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate}`);
                             let priorityButton = document.createElement('button');
                             let viewButton = document.createElement('button');
-                            viewButton.textContent = "VIEW";
                             viewButton.setAttribute('type', 'button');
-                            priorityButton.textContent = "CHANGE PRIORITY";
                             priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].length - 1}`);
-                      
-                            deleteButton.textContent = "DELETE";
+                            priorityButton.classList.add('priority-button');
+                            viewButton.classList.add('view-button');
+                            deleteButton.textContent = "X";
+                            deleteButton.classList.add('delete-button');
                             deleteButton.setAttribute('type', 'button');
                             deleteButton.setAttribute('datanumber', `${listOfProjects[button.attributes.data.value].length - 1}`);
                             deleteButton.addEventListener('click', () => {
@@ -155,7 +155,7 @@ addProject.addEventListener('click', function() {
             });
         })
         cancel.addEventListener('click', function() {
-            normal.removeChild(form);
+            normal.removeChild(div);
             isClicked = false;
         })
     }
@@ -190,12 +190,13 @@ add.addEventListener('click', function() {
                 let text = document.createTextNode(`${listOfProjects[1][listOfProjects[1].length - 1].title} ${listOfProjects[1][listOfProjects[1].length - 1].dueDate}`);
                 let priorityButton = document.createElement('button');
                 let viewButton = document.createElement('button');
-                viewButton.textContent = "VIEW";
+                priorityButton.classList.add('priority-button');
                 viewButton.setAttribute('type', 'button');
-                priorityButton.textContent = "CHANGE PRIORITY";
+                viewButton.classList.add('view-button');
                 priorityButton.setAttribute('datanum', `${listOfProjects[1].length - 1}`);
-          
-                deleteButton.textContent = "DELETE";
+
+                deleteButton.textContent = "X";
+                deleteButton.classList.add('delete-button');
                 deleteButton.setAttribute('type', 'button');
                 deleteButton.setAttribute('datanumber', `${listOfProjects[1].length - 1}`);
                 deleteButton.addEventListener('click', () => {
