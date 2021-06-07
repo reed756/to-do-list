@@ -16,6 +16,8 @@ let add = document.querySelector('.add');
 let addProject = document.querySelector('.new-project');
 let isClicked = false;
 
+// ADD NEW PROJECT //
+
 addProject.addEventListener('click', function() {
     if (isClicked === false) {
         projectForm();
@@ -161,6 +163,8 @@ addProject.addEventListener('click', function() {
     }
 })
 
+// ADD TODO TO DEFAULT LIST //
+
 add.addEventListener('click', function() {
     if (isClicked === false) {
         addForm();
@@ -182,7 +186,7 @@ add.addEventListener('click', function() {
         add.addEventListener('click', function() {
             let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
             addTodo(listOfProjects[1], finalTodo);
-            let defaultList = document.querySelector(".defaultList");
+                let defaultList = document.querySelector(".defaultList");
                 let li = document.createElement("li");
                 li.classList.add('todo');
                 li.style.backgroundColor = `${listOfProjects[1][listOfProjects[1].length - 1].priority}`;
@@ -210,6 +214,7 @@ add.addEventListener('click', function() {
                     for (let i = 0; i < listOfProjects[1].length; i++) {
                         priorities[i].setAttribute('datanum', `${i}`);
                     }
+                    setStorage();
                 })
                 priorityButton.addEventListener('click', () => {
                     li.removeChild(text);
@@ -223,6 +228,7 @@ add.addEventListener('click', function() {
                     li.appendChild(viewButton);
                     listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
                     li.style.backgroundColor = `${listOfProjects[1][priorityButton.attributes.datanum.value].priority}`;
+                    setStorage();
                 });
                 viewButton.addEventListener('click', () => {
                     if (isClicked) {
@@ -254,7 +260,7 @@ add.addEventListener('click', function() {
                 li.appendChild(deleteButton);
                 li.appendChild(viewButton);
                 defaultList.appendChild(li);
-
+                setStorage();
                 title.value = "test";
                 description.value = "test";
                 duedate.value = "2021-07-05";
@@ -262,3 +268,104 @@ add.addEventListener('click', function() {
         })
     }
 });
+
+// console.log(JSON.parse(localStorage.getItem('listOfProjects')));
+
+// ADD LOCAL STORAGE //
+
+const addStorage = () => {
+    let defaultList = document.querySelector(".defaultList");
+        for (let i = 0; i < listOfProjects[1].length; i++) {
+                let li = document.createElement("li");
+                li.classList.add('todo');
+                li.style.backgroundColor = `${listOfProjects[1][i].priority}`;
+                let deleteButton = document.createElement('button');
+                let text = document.createTextNode(`${listOfProjects[1][i].title} ${listOfProjects[1][i].dueDate}`);
+                let priorityButton = document.createElement('button');
+                let viewButton = document.createElement('button');
+                priorityButton.classList.add('priority-button');
+                viewButton.setAttribute('type', 'button');
+                viewButton.classList.add('view-button');
+                priorityButton.setAttribute('datanum', `${i}`);
+                deleteButton.textContent = "X";
+                deleteButton.classList.add('delete-button');
+                deleteButton.setAttribute('type', 'button');
+                deleteButton.setAttribute('datanumber', `${i}`);
+                deleteButton.addEventListener('click', () => {
+                    removeTodo(listOfProjects[1], deleteButton.attributes.datanumber.value);
+                    defaultList.removeChild(li);
+                    let deletes = document.querySelectorAll('button[datanumber]');
+                    for (let i = 0; i < listOfProjects[1].length; i++) {
+                        deletes[i].setAttribute('datanumber', `${i}`);
+                    }
+                    let priorities = document.querySelectorAll('button[datanum]');
+                    for (let i = 0; i < listOfProjects[1].length; i++) {
+                        priorities[i].setAttribute('datanum', `${i}`);
+                    }
+                    setStorage();
+                })
+                priorityButton.addEventListener('click', () => {
+                    li.removeChild(text);
+                    li.removeChild(priorityButton);
+                    li.removeChild(deleteButton);
+                    li.removeChild(viewButton);
+                    text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
+                    li.appendChild(text);
+                    li.appendChild(priorityButton);
+                    li.appendChild(deleteButton);
+                    li.appendChild(viewButton);
+                    listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
+                    li.style.backgroundColor = `${listOfProjects[1][priorityButton.attributes.datanum.value].priority}`;
+                    setStorage();
+                });
+                viewButton.addEventListener('click', () => {
+                    if (isClicked) {
+                        li.removeChild(text);
+                        li.removeChild(priorityButton);
+                        li.removeChild(deleteButton);
+                        li.removeChild(viewButton);
+                        text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[1][priorityButton.attributes.datanum.value].description}`);
+                        li.appendChild(text);
+                        li.appendChild(priorityButton);
+                        li.appendChild(deleteButton);
+                        li.appendChild(viewButton);
+                        return isClicked = false;
+                    } else if (!isClicked) {
+                        li.removeChild(text);
+                        li.removeChild(priorityButton);
+                        li.removeChild(deleteButton);
+                        li.removeChild(viewButton);
+                        text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
+                        li.appendChild(text);
+                        li.appendChild(priorityButton);
+                        li.appendChild(deleteButton);
+                        li.appendChild(viewButton);
+                        return isClicked = true;
+                    }
+                });
+                li.appendChild(text);
+                li.appendChild(priorityButton);
+                li.appendChild(deleteButton);
+                li.appendChild(viewButton);
+                defaultList.appendChild(li);
+        }
+}
+
+const setStorage = () => {
+    localStorage.setItem('listOfProjects', JSON.stringify(listOfProjects));
+}
+
+const getStorage = () => {
+    if (localStorage.listOfProjects) {
+    let objects = localStorage.getItem('listOfProjects');
+    objects = JSON.parse(objects);
+    for (let i = 0; i < objects[1].length; i++) {
+        objects[1][i] = new createTodo(`${objects[1][i].title}`, `${objects[1][i].description}`, `${objects[1][i].dueDate}`, `${objects[1][i].priority}`);
+    }
+    listOfProjects[1] = objects[1];
+    addStorage();
+    return objects;
+    };
+}
+
+getStorage();
