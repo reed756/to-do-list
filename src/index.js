@@ -280,32 +280,34 @@ add.addEventListener('click', function() {
 
 const addStorage = () => {
     let defaultList = document.querySelector(".defaultList");
-        for (let i = 0; i < listOfProjects[1].length; i++) {
+        for (let i = 1; i < listOfProjects.length; i++) {
+            if (i === 1) {
+            for (let j = 0; j < listOfProjects[i].length; j++) {
                 let li = document.createElement("li");
                 li.classList.add('todo');
-                li.style.backgroundColor = `${listOfProjects[1][i].priority}`;
+                li.style.backgroundColor = `${listOfProjects[i][j].priority}`;
                 let deleteButton = document.createElement('button');
-                let text = document.createTextNode(`${listOfProjects[1][i].title} ${listOfProjects[1][i].dueDate}`);
+                let text = document.createTextNode(`${listOfProjects[i][j].title} ${listOfProjects[i][j].dueDate}`);
                 let priorityButton = document.createElement('button');
                 let viewButton = document.createElement('button');
                 priorityButton.classList.add('priority-button');
                 viewButton.setAttribute('type', 'button');
                 viewButton.classList.add('view-button');
-                priorityButton.setAttribute('datanum', `${i}`);
+                priorityButton.setAttribute('datanum', `${j}`);
                 deleteButton.textContent = "X";
                 deleteButton.classList.add('delete-button');
                 deleteButton.setAttribute('type', 'button');
-                deleteButton.setAttribute('datanumber', `${i}`);
+                deleteButton.setAttribute('datanumber', `${j}`);
                 deleteButton.addEventListener('click', () => {
-                    removeTodo(listOfProjects[1], deleteButton.attributes.datanumber.value);
+                    removeTodo(listOfProjects[i], deleteButton.attributes.datanumber.value);
                     defaultList.removeChild(li);
                     let deletes = document.querySelectorAll('button[datanumber]');
-                    for (let i = 0; i < listOfProjects[1].length; i++) {
-                        deletes[i].setAttribute('datanumber', `${i}`);
+                    for (let z = 0; z < listOfProjects[i].length; z++) {
+                        deletes[z].setAttribute('datanumber', `${z}`);
                     }
                     let priorities = document.querySelectorAll('button[datanum]');
-                    for (let i = 0; i < listOfProjects[1].length; i++) {
-                        priorities[i].setAttribute('datanum', `${i}`);
+                    for (let z = 0; z < listOfProjects[i].length; z++) {
+                        priorities[z].setAttribute('datanum', `${z}`);
                     }
                     setStorage();
                 })
@@ -314,13 +316,13 @@ const addStorage = () => {
                     li.removeChild(priorityButton);
                     li.removeChild(deleteButton);
                     li.removeChild(viewButton);
-                    text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
+                    text = document.createTextNode(`${listOfProjects[i][priorityButton.attributes.datanum.value].title} ${listOfProjects[i][priorityButton.attributes.datanum.value].dueDate}`);
                     li.appendChild(text);
                     li.appendChild(priorityButton);
                     li.appendChild(deleteButton);
                     li.appendChild(viewButton);
-                    listOfProjects[1][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[1][priorityButton.attributes.datanum.value].priority);
-                    li.style.backgroundColor = `${listOfProjects[1][priorityButton.attributes.datanum.value].priority}`;
+                    listOfProjects[i][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[i][priorityButton.attributes.datanum.value].priority);
+                    li.style.backgroundColor = `${listOfProjects[i][priorityButton.attributes.datanum.value].priority}`;
                     setStorage();
                 });
                 viewButton.addEventListener('click', () => {
@@ -329,7 +331,7 @@ const addStorage = () => {
                         li.removeChild(priorityButton);
                         li.removeChild(deleteButton);
                         li.removeChild(viewButton);
-                        text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[1][priorityButton.attributes.datanum.value].description}`);
+                        text = document.createTextNode(`${listOfProjects[i][priorityButton.attributes.datanum.value].title} ${listOfProjects[i][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[i][priorityButton.attributes.datanum.value].description}`);
                         li.appendChild(text);
                         li.appendChild(priorityButton);
                         li.appendChild(deleteButton);
@@ -340,7 +342,7 @@ const addStorage = () => {
                         li.removeChild(priorityButton);
                         li.removeChild(deleteButton);
                         li.removeChild(viewButton);
-                        text = document.createTextNode(`${listOfProjects[1][priorityButton.attributes.datanum.value].title} ${listOfProjects[1][priorityButton.attributes.datanum.value].dueDate}`);
+                        text = document.createTextNode(`${listOfProjects[i][priorityButton.attributes.datanum.value].title} ${listOfProjects[i][priorityButton.attributes.datanum.value].dueDate}`);
                         li.appendChild(text);
                         li.appendChild(priorityButton);
                         li.appendChild(deleteButton);
@@ -353,6 +355,37 @@ const addStorage = () => {
                 li.appendChild(deleteButton);
                 li.appendChild(viewButton);
                 defaultList.appendChild(li);
+                } 
+            } else if (i > 1) {
+                console.log('this works');
+                // let list = document.createElement('ul');
+                // let button = document.createElement('button');
+                // let deleteProj = document.createElement('button');
+                // let listdiv = document.querySelector(".listdiv");
+                // button.setAttribute('type', 'button');
+                // button.textContent = "+";
+                // button.classList.add('add');
+                // deleteProj.setAttribute('type', 'button');
+                // deleteProj.textContent = "X";
+                // deleteProj.classList.add('red');
+                // list.textContent = `${listOfProjects[i].name}`;
+                // list.appendChild(button);
+                // list.appendChild(deleteProj);
+                // listdiv.appendChild(list);
+                // let newList = createList(listOfProjects[i]);
+                // listOfProjects.push(newList);
+                // button.setAttribute('data', `${listOfProjects[i]}`);
+                // deleteProj.setAttribute('data', `${listOfProjects[i]}`);
+                // list.setAttribute('data', `${listOfProjects[i]}`);
+                // deleteProj.addEventListener('click', function() {
+                //     listOfProjects.splice(list.attributes.data.value, 1);
+                //     listdiv.removeChild(list);
+                //     let deleters = document.querySelectorAll('ul[data]');
+                //     for (let i = 0; i < listOfProjects.length - 1; i++) {
+                //         deleters[i].setAttribute('data', `${i}`);
+                //     }
+                // })
+            }
         }
 }
 
@@ -409,9 +442,7 @@ const getStorage = () => {
     addStorage();
     // console.log(localStorage.listOfProjects.length);
     // console.log(localStorage.listOfProjects);
-    if (localStorage.listOfProjects.length > 3) {
-        addStorageTwo();
-    }
+    // addStorageTwo();
     return objects;
     };
 }
@@ -419,6 +450,6 @@ const getStorage = () => {
 // localStorage.listOfProjects = "";
 console.log(localStorage.listOfProjects.length);
 console.log(localStorage.listOfProjects);
-console.log(listOfProjects);
 getStorage();
+console.log(listOfProjects);
 // console.log(JSON.parse(localStorage.getItem('listOfProjects')));
