@@ -9,7 +9,7 @@ import { projectForm } from './projectform.js';
 
 pageLoad();
 
-const listOfProjects = [[]];
+let listOfProjects = [[]];
 const todoList = [];
 listOfProjects.push(todoList);
 let add = document.querySelector('.add');
@@ -42,9 +42,11 @@ addProject.addEventListener('click', function() {
             list.appendChild(button);
             list.appendChild(deleteProj);
             listdiv.appendChild(list);
-            let newList = createList(input.value);
+            let newList = new createList(input.value);
             input.value = "test";
             listOfProjects.push(newList);
+            console.log(listOfProjects.length);
+            console.log(listOfProjects);
             button.setAttribute('data', `${listOfProjects.length - 1}`);
             deleteProj.setAttribute('data', `${listOfProjects.length - 1}`);
             list.setAttribute('data', `${listOfProjects.length - 1}`);
@@ -56,6 +58,7 @@ addProject.addEventListener('click', function() {
                     deleters[i].setAttribute('data', `${i}`);
                 }
             })
+            setStorage();
             button.addEventListener('click', function() {
                 if (isClicked === false) {
                     addForm();
@@ -76,46 +79,48 @@ addProject.addEventListener('click', function() {
             
                     add.addEventListener('click', function() {
                         let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
-                        addTodo(listOfProjects[button.attributes.data.value], finalTodo);
+                        addTodo(listOfProjects[button.attributes.data.value].array, finalTodo);
                             let li = document.createElement("li");
                             li.classList.add('todo');
-                            li.style.backgroundColor = `${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].priority}`;
+                            li.style.backgroundColor = `${listOfProjects[button.attributes.data.value].array[listOfProjects[button.attributes.data.value].array.length - 1].priority}`;
                             let deleteButton = document.createElement('button');
-                            let text = document.createTextNode(`${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].title} ${listOfProjects[button.attributes.data.value][listOfProjects[button.attributes.data.value].length - 1].dueDate}`);
+                            let text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[listOfProjects[button.attributes.data.value].array.length - 1].title} ${listOfProjects[button.attributes.data.value].array[listOfProjects[button.attributes.data.value].array.length - 1].dueDate}`);
                             let priorityButton = document.createElement('button');
                             let viewButton = document.createElement('button');
                             viewButton.setAttribute('type', 'button');
-                            priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].length - 1}`);
+                            priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].array.length - 1}`);
                             priorityButton.classList.add('priority-button');
                             viewButton.classList.add('view-button');
                             deleteButton.textContent = "X";
                             deleteButton.classList.add('delete-button');
                             deleteButton.setAttribute('type', 'button');
-                            deleteButton.setAttribute('datanumber', `${listOfProjects[button.attributes.data.value].length - 1}`);
+                            deleteButton.setAttribute('datanumber', `${listOfProjects[button.attributes.data.value].array.length - 1}`);
                             deleteButton.addEventListener('click', () => {
-                                removeTodo(listOfProjects[button.attributes.data.value], deleteButton.attributes.datanumber.value);
+                                removeTodo(listOfProjects[button.attributes.data.value].array, deleteButton.attributes.datanumber.value);
                                 list.removeChild(li);
                                 let deletes = document.querySelectorAll('button[datanumber]');
-                                for (let i = 0; i < listOfProjects[button.attributes.data.value].length; i++) {
+                                for (let i = 0; i < listOfProjects[button.attributes.data.value].array.length; i++) {
                                     deletes[i].setAttribute('datanumber', `${i}`);
                                 }
                                 let priorities = document.querySelectorAll('button[datanum]');
-                                for (let i = 0; i < listOfProjects[button.attributes.data.value].length; i++) {
+                                for (let i = 0; i < listOfProjects[button.attributes.data.value].array.length; i++) {
                                     priorities[i].setAttribute('datanum', `${i}`);
                                 }
+                                setStorage();
                             })
                             priorityButton.addEventListener('click', () => {
                                 li.removeChild(text);
                                 li.removeChild(priorityButton);
                                 li.removeChild(deleteButton);
                                 li.removeChild(viewButton);
-                                text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate}`);
+                                text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate}`);
                                 li.appendChild(text);
                                 li.appendChild(priorityButton);
                                 li.appendChild(deleteButton);
                                 li.appendChild(viewButton);
-                                listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority);
-                                li.style.backgroundColor = `${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].priority}`;
+                                listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority);
+                                li.style.backgroundColor = `${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority}`;
+                                setStorage();
                             })
                             viewButton.addEventListener('click', () => {
                                 if (isClicked) {
@@ -123,7 +128,7 @@ addProject.addEventListener('click', function() {
                                     li.removeChild(priorityButton);
                                     li.removeChild(deleteButton);
                                     li.removeChild(viewButton);
-                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].description}`);
+                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].description}`);
                                     li.appendChild(text);
                                     li.appendChild(priorityButton);
                                     li.appendChild(deleteButton);
@@ -134,7 +139,7 @@ addProject.addEventListener('click', function() {
                                     li.removeChild(priorityButton);
                                     li.removeChild(deleteButton);
                                     li.removeChild(viewButton);
-                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value][priorityButton.attributes.datanum.value].dueDate}`);
+                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate}`);
                                     li.appendChild(text);
                                     li.appendChild(priorityButton);
                                     li.appendChild(deleteButton);
@@ -147,7 +152,7 @@ addProject.addEventListener('click', function() {
                             li.appendChild(deleteButton);
                             li.appendChild(viewButton);
                             list.appendChild(li);
-            
+                            setStorage();
                             title.value = "test";
                             description.value = "test";
                             duedate.value = "2021-07-05";
@@ -351,6 +356,42 @@ const addStorage = () => {
         }
 }
 
+const addStorageTwo = () => {
+    // for (let i = 0; i < listOfProjects.length; i++) {
+        // if (i === 0 || i === 1) {
+        //     continue;
+        // }
+            let list = document.createElement('ul');
+            let button = document.createElement('button');
+            let deleteProj = document.createElement('button');
+            let listdiv = document.querySelector(".listdiv");
+            // let input = document.querySelector("[data='title']");
+            button.setAttribute('type', 'button');
+            button.textContent = "+";
+            button.classList.add('add');
+            deleteProj.setAttribute('type', 'button');
+            deleteProj.textContent = "X";
+            deleteProj.classList.add('red');
+            list.textContent = `${listOfProjects[2].name}`;
+            list.appendChild(button);
+            list.appendChild(deleteProj);
+            listdiv.appendChild(list);
+            let newList = createList(listOfProjects[2]);
+            // input.value = "test";
+            listOfProjects.push(newList);
+            button.setAttribute('data', `${listOfProjects[2]}`);
+            deleteProj.setAttribute('data', `${listOfProjects[2]}`);
+            list.setAttribute('data', `${listOfProjects[2]}`);
+            deleteProj.addEventListener('click', function() {
+                listOfProjects.splice(list.attributes.data.value, 1);
+                listdiv.removeChild(list);
+                let deleters = document.querySelectorAll('ul[data]');
+                for (let i = 0; i < listOfProjects.length - 1; i++) {
+                    deleters[i].setAttribute('data', `${i}`);
+                }
+            })
+        }
+
 const setStorage = () => {
     localStorage.setItem('listOfProjects', JSON.stringify(listOfProjects));
 }
@@ -359,13 +400,25 @@ const getStorage = () => {
     if (localStorage.listOfProjects) {
     let objects = localStorage.getItem('listOfProjects');
     objects = JSON.parse(objects);
-    for (let i = 0; i < objects[1].length; i++) {
-        objects[1][i] = new createTodo(`${objects[1][i].title}`, `${objects[1][i].description}`, `${objects[1][i].dueDate}`, `${objects[1][i].priority}`);
+    for (let i = 1; i < objects.length; i++) {
+        for (let j = 0; j < objects[i].length; j++) {
+        objects[i][j] = new createTodo(`${objects[i][j].title}`, `${objects[i][j].description}`, `${objects[i][j].dueDate}`, `${objects[i][j].priority}`);
+        }
     }
-    listOfProjects[1] = objects[1];
+    listOfProjects = objects;
     addStorage();
+    // console.log(localStorage.listOfProjects.length);
+    // console.log(localStorage.listOfProjects);
+    if (localStorage.listOfProjects.length > 3) {
+        addStorageTwo();
+    }
     return objects;
     };
 }
 
+// localStorage.listOfProjects = "";
+console.log(localStorage.listOfProjects.length);
+console.log(localStorage.listOfProjects);
+console.log(listOfProjects);
 getStorage();
+// console.log(JSON.parse(localStorage.getItem('listOfProjects')));
