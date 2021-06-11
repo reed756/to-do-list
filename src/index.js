@@ -357,37 +357,57 @@ const addStorage = () => {
                 defaultList.appendChild(li);
                 } 
             } else if (i > 1) {
-                console.log('this works');
-                // let list = document.createElement('ul');
-                // let button = document.createElement('button');
-                // let deleteProj = document.createElement('button');
-                // let listdiv = document.querySelector(".listdiv");
-                // button.setAttribute('type', 'button');
-                // button.textContent = "+";
-                // button.classList.add('add');
-                // deleteProj.setAttribute('type', 'button');
-                // deleteProj.textContent = "X";
-                // deleteProj.classList.add('red');
-                // list.textContent = `${listOfProjects[i].name}`;
-                // list.appendChild(button);
-                // list.appendChild(deleteProj);
-                // listdiv.appendChild(list);
-                // let newList = createList(listOfProjects[i]);
-                // listOfProjects.push(newList);
-                // button.setAttribute('data', `${listOfProjects[i]}`);
-                // deleteProj.setAttribute('data', `${listOfProjects[i]}`);
-                // list.setAttribute('data', `${listOfProjects[i]}`);
-                // deleteProj.addEventListener('click', function() {
-                //     listOfProjects.splice(list.attributes.data.value, 1);
-                //     listdiv.removeChild(list);
-                //     let deleters = document.querySelectorAll('ul[data]');
-                //     for (let i = 0; i < listOfProjects.length - 1; i++) {
-                //         deleters[i].setAttribute('data', `${i}`);
-                //     }
-                // })
+                for (let j = 0; j < listOfProjects[i].array.length; j++) {
+                let list = document.createElement('ul');
+                let button = document.createElement('button');
+                let deleteProj = document.createElement('button');
+                let listdiv = document.querySelector(".listdiv");
+                let li = document.createElement("li");
+                let deleteButton = document.createElement('button');
+                let text = document.createTextNode(`${listOfProjects[i].array[j].title} ${listOfProjects[i].array[j].dueDate}`);
+                let priorityButton = document.createElement('button');
+                let viewButton = document.createElement('button');
+                button.setAttribute('type', 'button');
+                button.textContent = "+";
+                button.classList.add('add');
+                deleteProj.setAttribute('type', 'button');
+                deleteProj.textContent = "X";
+                deleteProj.classList.add('red');
+                list.textContent = `${listOfProjects[i].name}`;
+                list.appendChild(button);
+                list.appendChild(deleteProj);
+                listdiv.appendChild(list);
+                button.setAttribute('data', `${[i]}`);
+                deleteProj.setAttribute('data', `${[i]}`);
+                list.setAttribute('data', `${[i]}`);
+                li.classList.add('todo');
+                li.style.backgroundColor = `${listOfProjects[i].array[j].priority}`;
+                priorityButton.classList.add('priority-button');
+                viewButton.setAttribute('type', 'button');
+                viewButton.classList.add('view-button');
+                priorityButton.setAttribute('datanum', `${j}`);
+                deleteButton.textContent = "X";
+                deleteButton.classList.add('delete-button');
+                deleteButton.setAttribute('type', 'button');
+                deleteButton.setAttribute('datanumber', `${j}`);
+                    li.appendChild(text);
+                    li.appendChild(priorityButton);
+                    li.appendChild(deleteButton);
+                    li.appendChild(viewButton);
+                    list.appendChild(li);
+                deleteProj.addEventListener('click', function() {
+                    listOfProjects.splice(list.attributes.data.value, 1);
+                    listdiv.removeChild(list);
+                    let deleters = document.querySelectorAll('ul[data]');
+                    for (let i = 0; i < listOfProjects.length - 1; i++) {
+                        deleters[i].setAttribute('data', `${i}`);
+                    }
+                    setStorage();
+                }) 
+            }
             }
         }
-}
+    };
 
 const addStorageTwo = () => {
     // for (let i = 0; i < listOfProjects.length; i++) {
