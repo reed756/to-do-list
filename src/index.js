@@ -357,16 +357,15 @@ const addStorage = () => {
                 defaultList.appendChild(li);
                 } 
             } else if (i > 1) {
-                for (let j = 0; j < listOfProjects[i].array.length; j++) {
                 let list = document.createElement('ul');
                 let button = document.createElement('button');
                 let deleteProj = document.createElement('button');
                 let listdiv = document.querySelector(".listdiv");
                 let li = document.createElement("li");
                 let deleteButton = document.createElement('button');
-                let text = document.createTextNode(`${listOfProjects[i].array[j].title} ${listOfProjects[i].array[j].dueDate}`);
                 let priorityButton = document.createElement('button');
                 let viewButton = document.createElement('button');
+                let add = document.querySelector('.add');
                 button.setAttribute('type', 'button');
                 button.textContent = "+";
                 button.classList.add('add');
@@ -381,6 +380,55 @@ const addStorage = () => {
                 deleteProj.setAttribute('data', `${[i]}`);
                 list.setAttribute('data', `${[i]}`);
                 li.classList.add('todo');
+                add.addEventListener('click', function() {
+                    console.log('hello');
+                    // if (isClicked === false) {
+                    //     addForm();
+                    //     isClicked = true;
+                    //     let cancel = document.querySelector('.cancel');
+                    //     let normal = document.querySelector(".listdiv");
+                    //     let form = document.querySelector('form');
+                    //     let title = document.querySelector("[data='title']");
+                    //     let description = document.querySelector("[data='description']");
+                    //     let duedate = document.querySelector("[data='duedate']");
+                    //     let priority = document.querySelector("[data='priority']");
+                    //     let add = document.querySelector("[data='add']");
+                
+                    //     cancel.addEventListener('click', function() {
+                    //     normal.removeChild(form);
+                    //     isClicked = false;
+                    //     })
+
+                    // let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
+                    // addTodo(listOfProjects[i].array, finalTodo);
+                    //     let li = document.createElement("li");
+                    //     li.classList.add('todo');
+                    //     li.style.backgroundColor = `${listOfProjects[i].array[length - 1].priority}`;
+                    //     let deleteButton = document.createElement('button');
+                    //     let text = document.createTextNode(`${listOfProjects[i].array[length - 1].title} ${listOfProjects[i].array[length - 1].dueDate}`);
+                    //     let priorityButton = document.createElement('button');
+                    //     let viewButton = document.createElement('button');
+                    //     priorityButton.classList.add('priority-button');
+                    //     viewButton.setAttribute('type', 'button');
+                    //     viewButton.classList.add('view-button');
+                    //     priorityButton.setAttribute('datanum', `${listOfProjects[i].array[length - 1]}`);
+                    //     deleteButton.textContent = "X";
+                    //     deleteButton.classList.add('delete-button');
+                    //     deleteButton.setAttribute('type', 'button');
+                    //     deleteButton.setAttribute('datanumber', `${listOfProjects[i].array[length - 1]}`);
+                    // }
+                })
+                deleteProj.addEventListener('click', function() {
+                    listOfProjects.splice(list.attributes.data.value, 1);
+                    listdiv.removeChild(list);
+                    let deleters = document.querySelectorAll('ul[data]');
+                    for (let i = 0; i < listOfProjects.length - 1; i++) {
+                        deleters[i].setAttribute('data', `${i}`);
+                    }
+                    setStorage();
+                })
+                for (let j = 0; j < listOfProjects[i].array.length; j++) {
+                let text = document.createTextNode(`${listOfProjects[i].array[j].title} ${listOfProjects[i].array[j].dueDate}`);
                 li.style.backgroundColor = `${listOfProjects[i].array[j].priority}`;
                 priorityButton.classList.add('priority-button');
                 viewButton.setAttribute('type', 'button');
@@ -390,60 +438,67 @@ const addStorage = () => {
                 deleteButton.classList.add('delete-button');
                 deleteButton.setAttribute('type', 'button');
                 deleteButton.setAttribute('datanumber', `${j}`);
+                deleteButton.addEventListener('click', () => {
+                    removeTodo(listOfProjects[i].array, deleteButton.attributes.datanumber.value);
+                    list.removeChild(li);
+                    let deletes = document.querySelectorAll('button[datanumber]');
+                    for (let z = 0; z < listOfProjects[i].array.length; z++) {
+                        deletes[z].setAttribute('datanumber', `${z}`);
+                    }
+                    let priorities = document.querySelectorAll('button[datanum]');
+                    for (let z = 0; z < listOfProjects[i].array.length; z++) {
+                        priorities[z].setAttribute('datanum', `${z}`);
+                    }
+                    setStorage();
+                })
+                priorityButton.addEventListener('click', () => {
+                    li.removeChild(text);
+                    li.removeChild(priorityButton);
+                    li.removeChild(deleteButton);
+                    li.removeChild(viewButton);
+                    text = document.createTextNode(`${listOfProjects[i].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[i].array[priorityButton.attributes.datanum.value].dueDate}`);
                     li.appendChild(text);
                     li.appendChild(priorityButton);
                     li.appendChild(deleteButton);
                     li.appendChild(viewButton);
-                    list.appendChild(li);
-                deleteProj.addEventListener('click', function() {
-                    listOfProjects.splice(list.attributes.data.value, 1);
-                    listdiv.removeChild(list);
-                    let deleters = document.querySelectorAll('ul[data]');
-                    for (let i = 0; i < listOfProjects.length - 1; i++) {
-                        deleters[i].setAttribute('data', `${i}`);
-                    }
+                    listOfProjects[i].array[priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[i].array[priorityButton.attributes.datanum.value].priority);
+                    li.style.backgroundColor = `${listOfProjects[i].array[priorityButton.attributes.datanum.value].priority}`;
                     setStorage();
-                }) 
+                });
+                viewButton.addEventListener('click', () => {
+                    if (isClicked) {
+                        li.removeChild(text);
+                        li.removeChild(priorityButton);
+                        li.removeChild(deleteButton);
+                        li.removeChild(viewButton);
+                        text = document.createTextNode(`${listOfProjects[i].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[i].array[priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[i].array[priorityButton.attributes.datanum.value].description}`);
+                        li.appendChild(text);
+                        li.appendChild(priorityButton);
+                        li.appendChild(deleteButton);
+                        li.appendChild(viewButton);
+                        return isClicked = false;
+                    } else if (!isClicked) {
+                        li.removeChild(text);
+                        li.removeChild(priorityButton);
+                        li.removeChild(deleteButton);
+                        li.removeChild(viewButton);
+                        text = document.createTextNode(`${listOfProjects[i].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[i].array[priorityButton.attributes.datanum.value].dueDate}`);
+                        li.appendChild(text);
+                        li.appendChild(priorityButton);
+                        li.appendChild(deleteButton);
+                        li.appendChild(viewButton);
+                        return isClicked = true;
+                    }
+                });
+                li.appendChild(text);
+                li.appendChild(priorityButton);
+                li.appendChild(deleteButton);
+                li.appendChild(viewButton);
+                list.appendChild(li); 
             }
             }
         }
     };
-
-const addStorageTwo = () => {
-    // for (let i = 0; i < listOfProjects.length; i++) {
-        // if (i === 0 || i === 1) {
-        //     continue;
-        // }
-            let list = document.createElement('ul');
-            let button = document.createElement('button');
-            let deleteProj = document.createElement('button');
-            let listdiv = document.querySelector(".listdiv");
-            // let input = document.querySelector("[data='title']");
-            button.setAttribute('type', 'button');
-            button.textContent = "+";
-            button.classList.add('add');
-            deleteProj.setAttribute('type', 'button');
-            deleteProj.textContent = "X";
-            deleteProj.classList.add('red');
-            list.textContent = `${listOfProjects[2].name}`;
-            list.appendChild(button);
-            list.appendChild(deleteProj);
-            listdiv.appendChild(list);
-            let newList = createList(listOfProjects[2]);
-            // input.value = "test";
-            listOfProjects.push(newList);
-            button.setAttribute('data', `${listOfProjects[2]}`);
-            deleteProj.setAttribute('data', `${listOfProjects[2]}`);
-            list.setAttribute('data', `${listOfProjects[2]}`);
-            deleteProj.addEventListener('click', function() {
-                listOfProjects.splice(list.attributes.data.value, 1);
-                listdiv.removeChild(list);
-                let deleters = document.querySelectorAll('ul[data]');
-                for (let i = 0; i < listOfProjects.length - 1; i++) {
-                    deleters[i].setAttribute('data', `${i}`);
-                }
-            })
-        }
 
 const setStorage = () => {
     localStorage.setItem('listOfProjects', JSON.stringify(listOfProjects));
