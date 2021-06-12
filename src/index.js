@@ -365,7 +365,6 @@ const addStorage = () => {
                 let deleteButton = document.createElement('button');
                 let priorityButton = document.createElement('button');
                 let viewButton = document.createElement('button');
-                let add = document.querySelector('.add');
                 button.setAttribute('type', 'button');
                 button.textContent = "+";
                 button.classList.add('add');
@@ -380,32 +379,112 @@ const addStorage = () => {
                 deleteProj.setAttribute('data', `${[i]}`);
                 list.setAttribute('data', `${[i]}`);
                 li.classList.add('todo');
-                add.addEventListener('click', function() {
-                    console.log('hello');
-                    // if (isClicked === false) {
-                    //     addForm();
-                    //     isClicked = true;
-                    //     let cancel = document.querySelector('.cancel');
-                    //     let normal = document.querySelector(".listdiv");
-                    //     let form = document.querySelector('form');
-                    //     let title = document.querySelector("[data='title']");
-                    //     let description = document.querySelector("[data='description']");
-                    //     let duedate = document.querySelector("[data='duedate']");
-                    //     let priority = document.querySelector("[data='priority']");
-                    //     let add = document.querySelector("[data='add']");
+                button.addEventListener('click', function() {
+                    if (isClicked === false) {
+                        addForm();
+                        isClicked = true;
+                        let cancel = document.querySelector('.cancel');
+                        let normal = document.querySelector(".listdiv");
+                        let form = document.querySelector('form');
+                        let title = document.querySelector("[data='title']");
+                        let description = document.querySelector("[data='description']");
+                        let duedate = document.querySelector("[data='duedate']");
+                        let priority = document.querySelector("[data='priority']");
+                        let add = document.querySelector("[data='add']");
                 
-                    //     cancel.addEventListener('click', function() {
-                    //     normal.removeChild(form);
-                    //     isClicked = false;
-                    //     })
+                        cancel.addEventListener('click', function() {
+                        normal.removeChild(form);
+                        isClicked = false;
+                        })
 
-                    // let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
-                    // addTodo(listOfProjects[i].array, finalTodo);
+                        add.addEventListener('click', function() {
+                            let finalTodo = new createTodo(`${title.value}`,`${description.value}`,`${duedate.value}`,`${priority.value}`);
+                            addTodo(listOfProjects[button.attributes.data.value].array, finalTodo);
+                            let li = document.createElement("li");
+                            li.classList.add('todo');
+                            li.style.backgroundColor = `${listOfProjects[button.attributes.data.value].array[listOfProjects[button.attributes.data.value].array.length - 1].priority}`;
+                            let deleteButton = document.createElement('button');
+                            let text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[listOfProjects[button.attributes.data.value].array.length - 1].title} ${listOfProjects[button.attributes.data.value].array[listOfProjects[button.attributes.data.value].array.length - 1].dueDate}`);
+                            let priorityButton = document.createElement('button');
+                            let viewButton = document.createElement('button');
+                            viewButton.setAttribute('type', 'button');
+                            priorityButton.setAttribute('datanum', `${listOfProjects[button.attributes.data.value].array.length - 1}`);
+                            priorityButton.classList.add('priority-button');
+                            viewButton.classList.add('view-button');
+                            deleteButton.textContent = "X";
+                            deleteButton.classList.add('delete-button');
+                            deleteButton.setAttribute('type', 'button');
+                            deleteButton.setAttribute('datanumber', `${listOfProjects[button.attributes.data.value].array.length - 1}`);
+                            deleteButton.addEventListener('click', () => {
+                                removeTodo(listOfProjects[button.attributes.data.value].array, deleteButton.attributes.datanumber.value);
+                                list.removeChild(li);
+                                let deletes = document.querySelectorAll('button[datanumber]');
+                                for (let i = 0; i < listOfProjects[button.attributes.data.value].array.length; i++) {
+                                    deletes[i].setAttribute('datanumber', `${i}`);
+                                }
+                                let priorities = document.querySelectorAll('button[datanum]');
+                                for (let i = 0; i < listOfProjects[button.attributes.data.value].array.length; i++) {
+                                    priorities[i].setAttribute('datanum', `${i}`);
+                                }
+                                setStorage();
+                            })
+                            priorityButton.addEventListener('click', () => {
+                                li.removeChild(text);
+                                li.removeChild(priorityButton);
+                                li.removeChild(deleteButton);
+                                li.removeChild(viewButton);
+                                text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate}`);
+                                li.appendChild(text);
+                                li.appendChild(priorityButton);
+                                li.appendChild(deleteButton);
+                                li.appendChild(viewButton);
+                                listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority);
+                                li.style.backgroundColor = `${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority}`;
+                                setStorage();
+                            })
+                            viewButton.addEventListener('click', () => {
+                                if (isClicked) {
+                                    li.removeChild(text);
+                                    li.removeChild(priorityButton);
+                                    li.removeChild(deleteButton);
+                                    li.removeChild(viewButton);
+                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].description}`);
+                                    li.appendChild(text);
+                                    li.appendChild(priorityButton);
+                                    li.appendChild(deleteButton);
+                                    li.appendChild(viewButton);
+                                    return isClicked = false;
+                                } else if (!isClicked) {
+                                    li.removeChild(text);
+                                    li.removeChild(priorityButton);
+                                    li.removeChild(deleteButton);
+                                    li.removeChild(viewButton);
+                                    text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate}`);
+                                    li.appendChild(text);
+                                    li.appendChild(priorityButton);
+                                    li.appendChild(deleteButton);
+                                    li.appendChild(viewButton);
+                                    return isClicked = true;
+                                }
+                            });
+                            li.appendChild(text);
+                            li.appendChild(priorityButton);
+                            li.appendChild(deleteButton);
+                            li.appendChild(viewButton);
+                            list.appendChild(li);
+                            setStorage();
+                            title.value = "test";
+                            description.value = "test";
+                            duedate.value = "2021-07-05";
+                            priority.value = "red";
+                    })
+                    }
+                    
                     //     let li = document.createElement("li");
                     //     li.classList.add('todo');
-                    //     li.style.backgroundColor = `${listOfProjects[i].array[length - 1].priority}`;
+                    //     li.style.backgroundColor = `${listOfProjects[i].array[length - 1][priority]}`;
                     //     let deleteButton = document.createElement('button');
-                    //     let text = document.createTextNode(`${listOfProjects[i].array[length - 1].title} ${listOfProjects[i].array[length - 1].dueDate}`);
+                    //     let text = document.createTextNode(`${listOfProjects[i].array[length - 1][title]} ${listOfProjects[i].array[length - 1][dueDate]}`);
                     //     let priorityButton = document.createElement('button');
                     //     let viewButton = document.createElement('button');
                     //     priorityButton.classList.add('priority-button');
@@ -416,8 +495,71 @@ const addStorage = () => {
                     //     deleteButton.classList.add('delete-button');
                     //     deleteButton.setAttribute('type', 'button');
                     //     deleteButton.setAttribute('datanumber', `${listOfProjects[i].array[length - 1]}`);
+                    //     deleteButton.addEventListener('click', () => {
+                    //         removeTodo(listOfProjects[button.attributes.data.value].array, deleteButton.attributes.datanumber.value);
+                    //         list.removeChild(li);
+                    //         let deletes = document.querySelectorAll('button[datanumber]');
+                    //         for (let i = 0; i < listOfProjects[button.attributes.data.value].array.length; i++) {
+                    //             deletes[i].setAttribute('datanumber', `${i}`);
+                    //         }
+                    //         let priorities = document.querySelectorAll('button[datanum]');
+                    //         for (let i = 0; i < listOfProjects[button.attributes.data.value].array.length; i++) {
+                    //             priorities[i].setAttribute('datanum', `${i}`);
+                    //         }
+                    //         setStorage();
+                    //     })
+                    //     priorityButton.addEventListener('click', () => {
+                    //         li.removeChild(text);
+                    //         li.removeChild(priorityButton);
+                    //         li.removeChild(deleteButton);
+                    //         li.removeChild(viewButton);
+                    //         text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate}`);
+                    //         li.appendChild(text);
+                    //         li.appendChild(priorityButton);
+                    //         li.appendChild(deleteButton);
+                    //         li.appendChild(viewButton);
+                    //         listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority = changePriority(listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority);
+                    //         li.style.backgroundColor = `${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].priority}`;
+                    //         setStorage();
+                    //     })
+                    //     viewButton.addEventListener('click', () => {
+                    //         if (isClicked) {
+                    //             li.removeChild(text);
+                    //             li.removeChild(priorityButton);
+                    //             li.removeChild(deleteButton);
+                    //             li.removeChild(viewButton);
+                    //             text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].description}`);
+                    //             li.appendChild(text);
+                    //             li.appendChild(priorityButton);
+                    //             li.appendChild(deleteButton);
+                    //             li.appendChild(viewButton);
+                    //             return isClicked = false;
+                    //         } else if (!isClicked) {
+                    //             li.removeChild(text);
+                    //             li.removeChild(priorityButton);
+                    //             li.removeChild(deleteButton);
+                    //             li.removeChild(viewButton);
+                    //             text = document.createTextNode(`${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].title} ${listOfProjects[button.attributes.data.value].array[priorityButton.attributes.datanum.value].dueDate}`);
+                    //             li.appendChild(text);
+                    //             li.appendChild(priorityButton);
+                    //             li.appendChild(deleteButton);
+                    //             li.appendChild(viewButton);
+                    //             return isClicked = true;
+                    //         }
+                    //     });
+                    //     li.appendChild(text);
+                    //         li.appendChild(priorityButton);
+                    //         li.appendChild(deleteButton);
+                    //         li.appendChild(viewButton);
+                    //         list.appendChild(li);
+                    //         setStorage();
+                    //         title.value = "test";
+                    //         description.value = "test";
+                    //         duedate.value = "2021-07-05";
+                    //         priority.value = "red";
                     // }
-                })
+                });
+
                 deleteProj.addEventListener('click', function() {
                     listOfProjects.splice(list.attributes.data.value, 1);
                     listdiv.removeChild(list);
@@ -522,7 +664,7 @@ const getStorage = () => {
     };
 }
 
-// localStorage.listOfProjects = "";
+localStorage.listOfProjects = "";
 console.log(localStorage.listOfProjects.length);
 console.log(localStorage.listOfProjects);
 getStorage();
