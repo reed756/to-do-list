@@ -357,11 +357,11 @@ const addStorage = () => {
                 defaultList.appendChild(li);
                 } 
             } else if (i > 1) {
+                let li = document.createElement("li");
                 let list = document.createElement('ul');
                 let button = document.createElement('button');
                 let deleteProj = document.createElement('button');
                 let listdiv = document.querySelector(".listdiv");
-                let li = document.createElement("li");
                 let deleteButton = document.createElement('button');
                 let priorityButton = document.createElement('button');
                 let viewButton = document.createElement('button');
@@ -477,6 +477,7 @@ const addStorage = () => {
                             description.value = "test";
                             duedate.value = "2021-07-05";
                             priority.value = "red";
+                            console.log(listOfProjects);
                     })
                     }
                     
@@ -570,6 +571,10 @@ const addStorage = () => {
                     setStorage();
                 })
                 for (let j = 0; j < listOfProjects[i].array.length; j++) {
+                let li = document.createElement("li");
+                let deleteButton = document.createElement('button');
+                let priorityButton = document.createElement('button');
+                let viewButton = document.createElement('button');
                 let text = document.createTextNode(`${listOfProjects[i].array[j].title} ${listOfProjects[i].array[j].dueDate}`);
                 li.style.backgroundColor = `${listOfProjects[i].array[j].priority}`;
                 priorityButton.classList.add('priority-button');
@@ -664,7 +669,7 @@ const getStorage = () => {
     };
 }
 
-localStorage.listOfProjects = "";
+// localStorage.listOfProjects = "";
 console.log(localStorage.listOfProjects.length);
 console.log(localStorage.listOfProjects);
 getStorage();
